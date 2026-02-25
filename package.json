@@ -22,7 +22,7 @@
   "author": "Jacek Labudda <j.labudda@dock.codes>",
   "license": "MIT",
   "peerDependencies": {
-    "@dockcodes/accessibility-widget": "^1.1.1",
+    "@dockcodes/accessibility-widget": "^1.1.3",
     "react": ">=17",
     "react-dom": ">=17"
   },
