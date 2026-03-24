@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { useAccessibility } from '../useAccessibility';
 
 const accessibilityDefaults = {
@@ -73,8 +73,15 @@ type InferedReturn<K extends keyof AccessibilityMap> = AccessibilityMap[K]['defa
 export function useAccessibilityValue<K extends keyof AccessibilityMap>(key: K) {
     const { event, valueKey, setKey, toggleKey } = accessibilityDefaults[key];
     const { accessibility } = useAccessibility();
-    const [state, setState] = React.useState<InferedReturn<K>>(accessibility.getAction(valueKey) as InferedReturn<K>);
-    accessibility.getAction('zoom');
+    const [state, setState] = React.useState<InferedReturn<K>>();
+    const isMounted = React.useRef(true);
+
+    React.useEffect(() => {
+        if (isMounted.current) setState(accessibility.getAction(valueKey) as InferedReturn<K>);
+        return () => {
+            isMounted.current = false;
+        };
+    }, [accessibility, valueKey]);
 
     React.useEffect(() => {
         function update(e: CustomEvent) {
@@ -84,15 +91,15 @@ export function useAccessibilityValue<K extends keyof AccessibilityMap>(key: K) 
         return () => window.removeEventListener(event, update);
     }, [event]);
 
-    const handleChange = useCallback(
+    const handleChange = React.useCallback(
         (newValue: InferedReturn<K>) => {
             accessibility.emit(setKey, newValue);
         },
         [setKey, accessibility]
     );
-    const handleToggle = useCallback(() => {
+    const handleToggle = React.useCallback(() => {
         accessibility.emit(toggleKey);
     }, [toggleKey, accessibility]);
 
-    return useMemo(() => [state, handleChange, handleToggle] as const, [state, handleChange, handleToggle]);
+    return React.useMemo(() => [state, handleChange, handleToggle] as const, [state, handleChange, handleToggle]);
 }
