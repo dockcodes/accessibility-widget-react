@@ -1,6 +1,6 @@
 # @dockcodes/accessibility-widget-react
 
-Check our [Accessibility Widget](https://wcag.dock.codes/#wcag-open).
+Check our [Accessibility Widget](https://dockaccess.org/#wcag-open).
 
 ### Installation
 
@@ -55,7 +55,7 @@ export default function App() {
 👉  [@dockcodes/accessibility-widget](https://www.npmjs.com/package/@dockcodes/accessibility-widget)
 
 ### 🔑 Get Your Free Widget Token
-👉 https://wcag.dock.codes/my-account/tokens/
+👉 https://dockaccess.org/my-account/tokens/
 
 ### 🤝 Contributing
 Contributions are welcome!

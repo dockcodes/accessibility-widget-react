@@ -19,7 +19,7 @@
   "files": [
     "dist"
   ],
-  "author": "Jacek Labudda <j.labudda@dock.codes>",
+  "author": "Jacek Sultan <j.sultan@dock.codes>",
   "license": "MIT",
   "peerDependencies": {
     "@dockcodes/accessibility-widget": "^1.2.1",
