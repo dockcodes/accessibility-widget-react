@@ -1,39 +1,37 @@
-import React, {createContext, useContext, useEffect, useState} from "react"
-import {accessibility} from "@dockcodes/accessibility-widget"
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { accessibility } from '@dockcodes/accessibility-widget';
 
 export interface AccessibilityContextValue {
-    accessibility: typeof accessibility | null
-    ready: boolean
+    accessibility: typeof accessibility | null;
+    ready: boolean;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextValue>({
     accessibility: null,
     ready: false,
-})
+});
 
 interface Props {
-    token: string
-    children: React.ReactNode
+    token: string;
+    basePath?: string;
+    children: React.ReactNode;
 }
 
-export const AccessibilityProvider: React.FC<Props> = ({token, children}) => {
-    const [ready, setReady] = useState(false)
+export const AccessibilityProvider: React.FC<Props> = ({ token, basePath, children }) => {
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        let mounted = true
+        let mounted = true;
+        if (basePath) accessibility.internal__setBasePath = basePath;
         accessibility.init(token).then(() => {
-            if (mounted) setReady(true)
-        })
+            if (mounted) setReady(true);
+        });
         return () => {
-            mounted = false
-        }
-    }, [token])
+            mounted = false;
+        };
+    }, [token]);
 
-    return (
-        <AccessibilityContext.Provider value={{accessibility, ready}}>
-            {children}
-        </AccessibilityContext.Provider>
-    )
-}
+    return <AccessibilityContext.Provider value={{ accessibility, ready }}>{children}</AccessibilityContext.Provider>;
+};
 
-export const useAccessibilityContext = () => useContext(AccessibilityContext)
+export const useAccessibilityContext = () => useContext(AccessibilityContext);
